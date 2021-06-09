@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <h2>新增資料</h2>
+        <input type="text" v-model="newData.name" placeholder="輸入姓名"/>
+        <select v-model="newData.district">
+            <option v-for="item in optionItem" :value="item.value">{{item.text}}</option>
+        </select>
+        <label for="isRent">is Rent?</label>
+        <input id="isRent" type="checkbox" v-model="newData.isRent">
+        <button @click="addData">提交</button>
+
+        <h2>查詢資料 Filter</h2>
+        <input v-model="filterString" />
+        <p v-for="item in filteredList">姓名:{{item.name}}<br>地址:{{item.district}}<br>是否交租:{{item.isRent}}<br></p>
+    </div>
+    <script>
+        new Vue({
+            el:'#root',
+            data:{
+                filterString:'',
+                newData:{
+                    name:'',
+                    district:'',
+                    isRent:false
+                },
+                properites: [
+                    {
+                        name:'崔詠捷',
+                        district:'花蓮縣吉安鄉稻香村稻香路31巷8號',
+                        isRent:true
+                    },
+                    {
+                        name:'李阿真',
+                        district:'花蓮市慶豐街161巷9號',
+                        isRent:false
+                    },
+                    {
+                        name:'崔阿國',
+                        district:'台南市東區衛國街114巷6-4號',
+                        isRent:true
+                    }
+                ],
+                optionItem:[
+                    {
+                        text:'option1',
+                        value:'option1'
+                    },
+                    {
+                        text:'option2',
+                        value:'option2'
+                    },
+                    {
+                        text:'option3',
+                        value:'option3'
+                    }
+                ]
+            },
+            methods:{
+                addData(){
+                    
+                    let tempData = {
+                        name : this.newData.name,
+                        district : this.newData.district,
+                        isRent:this.newData.isRent
+                    }
+                    this.properites.push(tempData);
+                }
+            },
+            computed:{
+                filteredList(){
+                    let temp = this.properites;
+                    return temp.filter( x => x.name.includes(this.filterString));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
