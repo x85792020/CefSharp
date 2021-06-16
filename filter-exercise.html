@@ -19,14 +19,23 @@
         <button @click="addData">提交</button>
 
         <h2>查詢資料 Filter</h2>
-        <input v-model="filterString" />
+        <input v-model="filterProperties.name" />
+        <select v-model="filterProperties.district">
+            <option v-for="item in optionItem" :value="item.value">{{item.text}}</option>
+        </select>
+        <label for="isRent2">is Rent?</label>
+        <input id="isRent2" type="checkbox" v-model="filterProperties.isRent">
         <p v-for="item in filteredList">姓名:{{item.name}}<br>地址:{{item.district}}<br>是否交租:{{item.isRent}}<br></p>
     </div>
     <script>
         new Vue({
             el:'#root',
             data:{
-                filterString:'',
+                filterProperties:{
+                    name:'',
+                    district:'',
+                    isRent:false
+                },
                 newData:{
                     name:'',
                     district:'',
@@ -51,16 +60,16 @@
                 ],
                 optionItem:[
                     {
-                        text:'option1',
-                        value:'option1'
+                        text:'花蓮市慶豐街161巷9號',
+                        value:'花蓮市慶豐街161巷9號'
                     },
                     {
-                        text:'option2',
-                        value:'option2'
+                        text:'台南市東區衛國街999巷115號',
+                        value:'台南市東區衛國街999巷115號'
                     },
                     {
-                        text:'option3',
-                        value:'option3'
+                        text:'花蓮縣吉安鄉',
+                        value:'花蓮縣吉安鄉'
                     }
                 ]
             },
@@ -78,7 +87,7 @@
             computed:{
                 filteredList(){
                     let temp = this.properites;
-                    return temp.filter( x => x.name.includes(this.filterString));
+                    return temp.filter( x => x.name.toLowerCase().includes(this.filterProperties.name) && x.district == this.filterProperties.district &&  x.isRent == this.filterProperties.isRent);
                 }
             }
         });
